@@ -11,7 +11,6 @@ namespace BusinessEntities
         private decimal _price;
         private ProductType _type = ProductType.Clothing;
         private int _stock;
-        private string _sku;
 
         public string Name
         {
@@ -35,12 +34,6 @@ namespace BusinessEntities
         {
             get => _stock;
             private set => _stock  = value;
-        }
-
-        public string Sku
-        {
-            get => _sku;
-            private set => _sku = value;
         }
 
         public void SetName(string name)
@@ -69,15 +62,6 @@ namespace BusinessEntities
         public void SetStock(int stock)
         {
             _stock = stock;
-        }
-
-        public void SetSku(string sku)
-        {
-            if (string.IsNullOrEmpty(sku))
-            {
-                throw new ArgumentNullException("SKU was not provided.");
-            }
-            _sku = sku;
         }
     }
 }

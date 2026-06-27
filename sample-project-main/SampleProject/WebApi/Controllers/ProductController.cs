@@ -32,7 +32,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var product = _createProductService.Create(productId, model.Name, model.Price, model.Type, model.Stock, model.Sku);
+                var product = _createProductService.Create(productId, model.Name, model.Price, model.Type, model.Stock);
                 return Found(new ProductData(product));
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace WebApi.Controllers
                 {
                     throw new BadRequestException("Price is not valid.");
                 }
-                _updateProductService.Update(product, model.Name, model.Price, model.Type, model.Stock, model.Sku);
+                _updateProductService.Update(product, model.Name, model.Price, model.Type, model.Stock);
             }
             catch (Exception ex)
             {
