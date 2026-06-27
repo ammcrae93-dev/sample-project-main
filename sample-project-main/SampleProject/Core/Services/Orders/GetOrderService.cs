@@ -22,7 +22,7 @@ namespace Core.Services.Orders
             return _orderRepository.Get(id);
         }
 
-        public IEnumerable<Order> GetOrders(IEnumerable<ProductOrder> products = null)
+        public IEnumerable<Order> GetOrders(List<Guid> products = null)
         {
             return _orderRepository.Get(products);
         }

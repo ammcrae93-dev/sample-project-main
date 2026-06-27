@@ -7,6 +7,6 @@ namespace Data.Repositories
 {
     public interface IProductRepository : IRepository<Product>
     {
-        IEnumerable<Product> Get(string type = null);
+        IEnumerable<Product> Get(ProductType? type = null);
     }
 }

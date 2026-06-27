@@ -9,7 +9,7 @@ namespace BusinessEntities
     {
         private string _name;
         private decimal _price;
-        private string _type;
+        private ProductType _type = ProductType.Clothing;
         private int _stock;
         private string _sku;
 
@@ -25,7 +25,7 @@ namespace BusinessEntities
             private set => _price = value;
         }
 
-        public string Type
+        public ProductType Type
         {
             get => _type;
             private set => _type = value;
@@ -61,7 +61,7 @@ namespace BusinessEntities
             _price = price;
         }
 
-        public void SetType(string type)
+        public void SetType(ProductType type)
         {
             _type = type;
         }

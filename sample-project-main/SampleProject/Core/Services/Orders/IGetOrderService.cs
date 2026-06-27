@@ -9,6 +9,6 @@ namespace Core.Services.Orders
     {
         Order GetOrder(Guid id);
 
-        IEnumerable<Order> GetOrders(IEnumerable<ProductOrder> products = null);
+        IEnumerable<Order> GetOrders(List<Guid> products = null);
     }
 }

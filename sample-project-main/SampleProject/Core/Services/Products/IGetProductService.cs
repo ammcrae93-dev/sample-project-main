@@ -9,6 +9,6 @@ namespace Core.Services.Products
     {
         Product GetProduct(Guid id);
 
-        IEnumerable<Product> GetProducts(string type = null);
+        IEnumerable<Product> GetProducts(ProductType? type = null);
     }
 }

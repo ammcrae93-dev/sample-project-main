@@ -12,7 +12,7 @@ namespace Data.Repositories
     {
         public ProductRepository() { }
 
-        public IEnumerable<Product> Get(string type = null)
+        public IEnumerable<Product> Get(ProductType? type = null)
         {
             if(type != null)
             {
