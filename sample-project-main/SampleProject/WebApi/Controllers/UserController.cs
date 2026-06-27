@@ -1,9 +1,11 @@
-﻿using System;
+﻿using BusinessEntities;
+using Core.Services.Users;
+using Raven.Abstractions.Exceptions;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
-using BusinessEntities;
-using Core.Services.Users;
+using System.Xml.Linq;
 using WebApi.Models.Users;
 
 namespace WebApi.Controllers
@@ -28,8 +30,21 @@ namespace WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage CreateUser(Guid userId, [FromBody] UserModel model)
         {
-            var user = _createUserService.Create(userId, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
-            return Found(new UserData(user));
+            var user = _getUserService.GetUser(userId);
+            if (user != null)
+            {
+                return AlreadyExists();
+            }
+
+            try
+            {
+                user = _createUserService.Create(userId, model.Name, model.Email,  model.Type, model.AnnualSalary, model.Tags);
+                return Found(new UserData(user));
+            }
+            catch (Exception ex)
+            {
+                return RequestError(ex);
+            }
         }
 
         [Route("{userId:guid}/update")]
@@ -41,7 +56,19 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist();
             }
-            _updateUserService.Update(user, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
+            try
+            {
+                if (model.AnnualSalary == null)
+                {
+                    throw new BadRequestException("Salary was not provided.");
+                }
+                _updateUserService.Update(user, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
+            }
+            catch (Exception ex)
+            {
+                return RequestError(ex);
+            }            
+            
             return Found(new UserData(user));
         }
 
@@ -89,7 +116,15 @@ namespace WebApi.Controllers
         [HttpGet]
         public HttpResponseMessage GetUsersByTag(string tag)
         {
-            throw new NotImplementedException();
+
+            var users = _getUserService.GetUsers()
+                                       .Where(user => user.Tags.Contains(tag));
+            if(!users.Any())
+            {
+                return DoesNotExist();
+            }
+
+            return Found(users.Select(q => new UserData(q)).ToList());
         }
     }
 }
